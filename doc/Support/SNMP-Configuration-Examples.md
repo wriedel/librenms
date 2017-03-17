@@ -130,10 +130,15 @@ extend .1.3.6.1.4.1.2021.7890.1 distro /usr/bin/distro
 ```
 
 ```
-#If you have 'dmidecode' installed on your host, you can add the following lines for additional hardware detection
-extend .1.3.6.1.4.1.2021.7890.2 hardware '/usr/sbin/dmidecode -s system-product-name'
-extend .1.3.6.1.4.1.2021.7890.3 manufacturer '/usr/sbin/dmidecode -s system-manufacturer'
-extend .1.3.6.1.4.1.2021.7890.4 serial '/usr/sbin/dmidecode -s system-serial-number'
+# If you have 'dmidecode' installed on your host, you can add the following lines for additional hardware detection
+# but dmidecode needs root privileges     
+# "sudo visudo" and add the snmpd user
+# For Debain: Debian-snmp ALL = NOPASSWD: /usr/sbin/dmidecode
+# For Ubuntu: snmp ALL = NOPASSWD: /usr/sbin/dmidecode
+#
+extend .1.3.6.1.4.1.2021.7890.2 hardware '/usr/bin/sudo -S /usr/sbin/dmidecode -s system-product-name'
+extend .1.3.6.1.4.1.2021.7890.3 manufacturer '/usr/bin/sudo -S /usr/sbin/dmidecode -s system-manufacturer'
+extend .1.3.6.1.4.1.2021.7890.4 serial '/usr/bin/sudo -S /usr/sbin/dmidecode -s system-serial-number'
 ```
 The LibreNMS server include a copy of this example here:
 
